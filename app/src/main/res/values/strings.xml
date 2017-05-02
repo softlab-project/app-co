@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">App-oco</string>
+    <string name="search_article_hint">Cerca prodotto...</string>
+    <string name="button_search">Cerca</string>
+</resources>
