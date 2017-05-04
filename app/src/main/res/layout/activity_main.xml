@@ -12,13 +12,6 @@
         android:layout_height="wrap_content"
         android:hint="@string/search_article_hint" />
 
-    <Button
-        android:id="@+id/bt_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_search"
-        android:onClick="searchProduct"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_search_result"
         android:layout_width="match_parent"
