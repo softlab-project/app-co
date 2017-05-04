@@ -17,6 +17,10 @@ import java.util.Scanner;
 public class NetworkUtils {
     private static final String BASE_URL = "http://svcs.ebay.com/services/search/FindingService/v1";
     public static URL buildUrlWithKeyword(String keyword) {
+        return buildUrlWithKeywordAndSiteId(keyword,"0");
+    }
+
+    public static URL buildUrlWithKeywordAndSiteId(String keyword, String siteId) {
         Uri queryUri = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter("OPERATION-NAME","findItemsByKeywords")
                 .appendQueryParameter("SERVICE-VERSION","1.0.0")
@@ -25,6 +29,7 @@ public class NetworkUtils {
                 .appendQueryParameter("REST-PAYLOAD","")
                 .appendQueryParameter("keywords",keyword)
                 .appendQueryParameter("paginationInput.entriesPerPage","10")
+                .appendQueryParameter("siteId",siteId)
                 .build();
 
         URL queryURL = null;

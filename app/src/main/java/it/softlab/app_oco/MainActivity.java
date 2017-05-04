@@ -1,15 +1,16 @@
 package it.softlab.app_oco;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.json.JSONException;
 
@@ -20,12 +21,16 @@ import it.softlab.app_oco.model.Product;
 import it.softlab.app_oco.utilities.JsonUtils;
 import it.softlab.app_oco.utilities.NetworkUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     RecyclerView mRecyclerView;
     String mJsonResponse;
+    boolean mShowUSA;
 
     private static final String KEY_JSON = "key_json";
+    private static final String USA_SITEID = "0";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +59,25 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        setupSharedPreferences();
 
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    private void setupSharedPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mShowUSA = sharedPreferences.getBoolean(
+                getString(R.string.pref_show_us_key),
+                getResources().getBoolean(R.bool.pref_show_us_default));
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     private void loadData() {
@@ -81,8 +104,24 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId()==R.id.action_search) {
             loadData();
             return true;
+        } else if (item.getItemId()==R.id.action_settings) {
+            Intent intent = new Intent(this,SettingsActivity.class);
+            startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        if (s.equals(getString(R.string.pref_show_us_key))) {
+            mShowUSA = sharedPreferences.getBoolean(
+                    getString(R.string.pref_show_us_key),
+                    getResources().getBoolean(R.bool.pref_show_us_default));
+            ProductAdapter adapter = new ProductAdapter(getApplicationContext());
+            adapter.setProductData(null);
+            mRecyclerView.setAdapter(adapter);
+        }
     }
 
     public class FetchDataTask extends AsyncTask<String, Void, Product[]> {
@@ -96,21 +135,23 @@ public class MainActivity extends AppCompatActivity {
             }
 
             String query = strings[0];
-            URL searchURL = NetworkUtils.buildUrlWithKeyword(query);
+            if (mShowUSA) {
+                URL searchURL = NetworkUtils.buildUrlWithKeywordAndSiteId(query,USA_SITEID);
 
-            mJsonResponse = null;
-            try {
-                mJsonResponse = NetworkUtils.getResponseFromUrl(searchURL);
-            } catch (IOException e) {
-                e.printStackTrace();
+                mJsonResponse = null;
+                try {
+                    mJsonResponse = NetworkUtils.getResponseFromUrl(searchURL);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    searchedProducts = JsonUtils.getSimpleProductDescription(mJsonResponse);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-            try {
-                searchedProducts = JsonUtils.getSimpleProductDescription(mJsonResponse);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
             return searchedProducts;
+
         }
 
         @Override
