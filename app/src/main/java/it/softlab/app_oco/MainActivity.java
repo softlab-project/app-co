@@ -146,12 +146,16 @@ public class MainActivity extends AppCompatActivity
             Product[] searchedProductsUSA = null;
             if (mShowUSA) {
                 searchedProductsUSA = searchedProductsByKeywordAndSiteID(query, NetworkUtils.SITEID_US);
-                productList.addAll(Arrays.asList(searchedProductsUSA));
+                if (searchedProductsUSA!=null) {
+                    productList.addAll(Arrays.asList(searchedProductsUSA));
+                }
             }
             Product[] searchedProductsITA = null;
             if (mShowITA) {
                 searchedProductsITA = searchedProductsByKeywordAndSiteID(query, NetworkUtils.SITEID_IT);
-                productList.addAll(Arrays.asList(searchedProductsITA));
+                if (searchedProductsITA!=null) {
+                    productList.addAll(Arrays.asList(searchedProductsITA));
+                }
             }
             mSearchedProducts = productList.toArray(new Product[productList.size()]);
 
