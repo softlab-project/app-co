@@ -1,10 +1,13 @@
 package it.softlab.app_oco.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by claudio on 5/3/17.
  */
 
-public class Product {
+public class Product implements Parcelable {
     private final String name;
     private final String location;
     private final String price;
@@ -25,5 +28,34 @@ public class Product {
 
     public String getPrice() {
         return price;
+    }
+
+    // Parcelable implementation
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(location);
+        parcel.writeString(price);
+    }
+    public static final Parcelable.Creator<Product> CREATOR
+            = new Parcelable.Creator<Product>() {
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
+    private Product(Parcel in) {
+        this.name = in.readString();
+        this.location = in.readString();
+        this.price = in.readString();
+
     }
 }

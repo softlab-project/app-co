@@ -25,15 +25,14 @@ import it.softlab.app_oco.utilities.JsonUtils;
 import it.softlab.app_oco.utilities.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity
-implements SharedPreferences.OnSharedPreferenceChangeListener{
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     RecyclerView mRecyclerView;
-    String mJsonResponse;
     private boolean mShowUSA;
     private boolean mShowITA;
 
-    private static final String KEY_JSON = "key_json";
-
+    Product[] mSearchedProducts;
+    private static final String KEY_LIST_DATA = "key_list_data";
 
 
     @Override
@@ -41,25 +40,19 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.rv_search_result);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rv_search_result);
         RecyclerView.LayoutManager layoutManager =
                 new LinearLayoutManager(this,
                         LinearLayoutManager.VERTICAL,
                         false);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        if (savedInstanceState!=null) {
-            if (savedInstanceState.containsKey(KEY_JSON)) {
-                 mJsonResponse = savedInstanceState.getString(KEY_JSON);
-                    try {
-                        Product[] p = JsonUtils
-                                .getSimpleProductDescription(mJsonResponse);
-                        ProductAdapter adapter = new ProductAdapter(this);
-                        adapter.setProductData(p);
-                        mRecyclerView.setAdapter(adapter);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(KEY_LIST_DATA)) {
+                mSearchedProducts = (Product[]) savedInstanceState.getParcelableArray(KEY_LIST_DATA);
+                ProductAdapter adapter = new ProductAdapter(this);
+                adapter.setProductData(mSearchedProducts);
+                mRecyclerView.setAdapter(adapter);
             }
         }
 
@@ -89,7 +82,7 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
     }
 
     private void loadData() {
-        EditText searchProductEditText = (EditText)findViewById(R.id.et_search_product);
+        EditText searchProductEditText = (EditText) findViewById(R.id.et_search_product);
         String searchedProduct = searchProductEditText.getText().toString();
 
         new FetchDataTask().execute(searchedProduct);
@@ -97,23 +90,23 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(KEY_JSON,mJsonResponse);
+        outState.putParcelableArray(KEY_LIST_DATA,mSearchedProducts);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==R.id.action_search) {
+        if (item.getItemId() == R.id.action_search) {
             loadData();
             return true;
-        } else if (item.getItemId()==R.id.action_settings) {
-            Intent intent = new Intent(this,SettingsActivity.class);
+        } else if (item.getItemId() == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
@@ -143,7 +136,7 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
 
         @Override
         protected Product[] doInBackground(String... strings) {
-            List<Product> searchedProducts = new ArrayList<>();
+            List<Product> productList = new ArrayList<>();
 
             if (strings.length == 0) {
                 return null;
@@ -152,31 +145,32 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
             String query = strings[0];
             Product[] searchedProductsUSA = null;
             if (mShowUSA) {
-                searchedProductsUSA = searchedProductsByKeywordAndSiteID(query,NetworkUtils.SITEID_US);
-                searchedProducts.addAll(Arrays.asList(searchedProductsUSA));
+                searchedProductsUSA = searchedProductsByKeywordAndSiteID(query, NetworkUtils.SITEID_US);
+                productList.addAll(Arrays.asList(searchedProductsUSA));
             }
             Product[] searchedProductsITA = null;
             if (mShowITA) {
-                searchedProductsITA = searchedProductsByKeywordAndSiteID(query,NetworkUtils.SITEID_IT);
-                searchedProducts.addAll(Arrays.asList(searchedProductsITA));
+                searchedProductsITA = searchedProductsByKeywordAndSiteID(query, NetworkUtils.SITEID_IT);
+                productList.addAll(Arrays.asList(searchedProductsITA));
             }
+            mSearchedProducts = productList.toArray(new Product[productList.size()]);
 
-            return searchedProducts.toArray(new Product[searchedProducts.size()]);
+            return mSearchedProducts;
 
         }
 
         private Product[] searchedProductsByKeywordAndSiteID(String query, String siteidUs) {
             Product[] searchedProducts = null;
-            URL searchURL = NetworkUtils.buildUrlWithKeywordAndSiteId(query,siteidUs);
+            URL searchURL = NetworkUtils.buildUrlWithKeywordAndSiteId(query, siteidUs);
 
-            mJsonResponse = null;
+            String jsonResponse = null;
             try {
-                mJsonResponse = NetworkUtils.getResponseFromUrl(searchURL);
+                jsonResponse = NetworkUtils.getResponseFromUrl(searchURL);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                searchedProducts = JsonUtils.getSimpleProductDescription(mJsonResponse);
+                searchedProducts = JsonUtils.getSimpleProductDescription(jsonResponse);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -185,7 +179,7 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
 
         @Override
         protected void onPostExecute(Product[] p) {
-            if (p!=null) {
+            if (p != null) {
                 ProductAdapter adapter = new ProductAdapter(getApplicationContext());
                 adapter.setProductData(p);
                 mRecyclerView.setAdapter(adapter);
