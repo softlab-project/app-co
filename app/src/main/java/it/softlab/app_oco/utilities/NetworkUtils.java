@@ -16,6 +16,12 @@ import java.util.Scanner;
 
 public class NetworkUtils {
     private static final String BASE_URL = "http://svcs.ebay.com/services/search/FindingService/v1";
+
+    private static final String GLOBALID_US = "EBAY-US";
+    private static final String GLOBALID_IT = "EBAY-IT";
+    public static final String SITEID_US = "0";
+    public static final String SITEID_IT = "101";
+
     public static URL buildUrlWithKeyword(String keyword) {
         return buildUrlWithKeywordAndSiteId(keyword,"0");
     }
@@ -30,6 +36,7 @@ public class NetworkUtils {
                 .appendQueryParameter("keywords",keyword)
                 .appendQueryParameter("paginationInput.entriesPerPage","10")
                 .appendQueryParameter("siteId",siteId)
+                .appendQueryParameter("GLOBAL-ID",siteidToGlobalId(siteId))
                 .build();
 
         URL queryURL = null;
@@ -42,6 +49,15 @@ public class NetworkUtils {
         Log.d("NetworkUtils","Search URL: "+queryURL);
 
         return queryURL;
+    }
+
+    private static String siteidToGlobalId(String siteId) {
+        String globalId = "";
+        switch (siteId) {
+            case SITEID_US: globalId = GLOBALID_US;break;
+            case SITEID_IT: globalId = GLOBALID_IT;break;
+        }
+        return globalId;
     }
 
     public static String getResponseFromUrl(URL searchURL) throws IOException {

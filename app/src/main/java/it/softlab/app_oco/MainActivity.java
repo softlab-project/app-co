@@ -16,6 +16,9 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import it.softlab.app_oco.model.Product;
 import it.softlab.app_oco.utilities.JsonUtils;
@@ -26,10 +29,11 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     RecyclerView mRecyclerView;
     String mJsonResponse;
-    boolean mShowUSA;
+    private boolean mShowUSA;
+    private boolean mShowITA;
 
     private static final String KEY_JSON = "key_json";
-    private static final String USA_SITEID = "0";
+
 
 
     @Override
@@ -76,6 +80,10 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
         mShowUSA = sharedPreferences.getBoolean(
                 getString(R.string.pref_show_us_key),
                 getResources().getBoolean(R.bool.pref_show_us_default));
+        mShowITA = sharedPreferences.getBoolean(
+                getString(R.string.pref_show_it_key),
+                getResources().getBoolean(R.bool.pref_show_it_default));
+
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
@@ -121,6 +129,13 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
             ProductAdapter adapter = new ProductAdapter(getApplicationContext());
             adapter.setProductData(null);
             mRecyclerView.setAdapter(adapter);
+        } else if (s.equals(getString(R.string.pref_show_it_key))) {
+            mShowUSA = sharedPreferences.getBoolean(
+                    getString(R.string.pref_show_it_key),
+                    getResources().getBoolean(R.bool.pref_show_it_default));
+            ProductAdapter adapter = new ProductAdapter(getApplicationContext());
+            adapter.setProductData(null);
+            mRecyclerView.setAdapter(adapter);
         }
     }
 
@@ -128,30 +143,44 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
 
         @Override
         protected Product[] doInBackground(String... strings) {
-            Product[] searchedProducts = null;
+            List<Product> searchedProducts = new ArrayList<>();
 
             if (strings.length == 0) {
                 return null;
             }
 
             String query = strings[0];
+            Product[] searchedProductsUSA = null;
             if (mShowUSA) {
-                URL searchURL = NetworkUtils.buildUrlWithKeywordAndSiteId(query,USA_SITEID);
+                searchedProductsUSA = searchedProductsByKeywordAndSiteID(query,NetworkUtils.SITEID_US);
+                searchedProducts.addAll(Arrays.asList(searchedProductsUSA));
+            }
+            Product[] searchedProductsITA = null;
+            if (mShowITA) {
+                searchedProductsITA = searchedProductsByKeywordAndSiteID(query,NetworkUtils.SITEID_IT);
+                searchedProducts.addAll(Arrays.asList(searchedProductsITA));
+            }
 
-                mJsonResponse = null;
-                try {
-                    mJsonResponse = NetworkUtils.getResponseFromUrl(searchURL);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    searchedProducts = JsonUtils.getSimpleProductDescription(mJsonResponse);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            return searchedProducts.toArray(new Product[searchedProducts.size()]);
+
+        }
+
+        private Product[] searchedProductsByKeywordAndSiteID(String query, String siteidUs) {
+            Product[] searchedProducts = null;
+            URL searchURL = NetworkUtils.buildUrlWithKeywordAndSiteId(query,siteidUs);
+
+            mJsonResponse = null;
+            try {
+                mJsonResponse = NetworkUtils.getResponseFromUrl(searchURL);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                searchedProducts = JsonUtils.getSimpleProductDescription(mJsonResponse);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
             return searchedProducts;
-
         }
 
         @Override
