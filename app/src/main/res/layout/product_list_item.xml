@@ -4,6 +4,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <!-- TODO (item-1) prettify the item! -->
+    <!-- TODO (item-2) add an image view to show the flag of the country, with w and h of 40dp -->
+    <!-- TODO (item-3) modify Product, JSONUtils, ProductAdapter and ProductViewHolder to show the image -->
+
+
     <TextView
         android:id="@+id/tv_item_name"
         android:layout_width="match_parent"

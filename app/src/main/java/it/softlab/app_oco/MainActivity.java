@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
                         LinearLayoutManager.VERTICAL,
                         false);
         mRecyclerView.setLayoutManager(layoutManager);
+        // TODO (recyclerview-2) create an adapter, assign to class field and set to the recyclerview
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(KEY_LIST_DATA)) {
@@ -55,6 +56,10 @@ public class MainActivity extends AppCompatActivity
                 mRecyclerView.setAdapter(adapter);
             }
         }
+
+        // TODO (actionsearch-3)  add setOnEditorActionListener on the search edit text view
+        // Manage IME_ACTION_SEND and run the query
+
 
         setupSharedPreferences();
 
@@ -119,6 +124,7 @@ public class MainActivity extends AppCompatActivity
             mShowUSA = sharedPreferences.getBoolean(
                     getString(R.string.pref_show_us_key),
                     getResources().getBoolean(R.bool.pref_show_us_default));
+            // TODO (recyclerview-4) set new data to adapter and delete setAdapter
             ProductAdapter adapter = new ProductAdapter(getApplicationContext());
             adapter.setProductData(null);
             mRecyclerView.setAdapter(adapter);
@@ -126,6 +132,7 @@ public class MainActivity extends AppCompatActivity
             mShowUSA = sharedPreferences.getBoolean(
                     getString(R.string.pref_show_it_key),
                     getResources().getBoolean(R.bool.pref_show_it_default));
+            // TODO (recyclerview-5) set new data to adapter and delete setAdapter
             ProductAdapter adapter = new ProductAdapter(getApplicationContext());
             adapter.setProductData(null);
             mRecyclerView.setAdapter(adapter);
@@ -133,6 +140,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public class FetchDataTask extends AsyncTask<String, Void, Product[]> {
+
+        // TODO (progressbar-3) Override onPreExecute and make the progressbar visible and recycleview invisible
 
         @Override
         protected Product[] doInBackground(String... strings) {
@@ -159,6 +168,8 @@ public class MainActivity extends AppCompatActivity
             }
             mSearchedProducts = productList.toArray(new Product[productList.size()]);
 
+            // TODO (sort-3) sort the array before returning it
+
             return mSearchedProducts;
 
         }
@@ -181,9 +192,11 @@ public class MainActivity extends AppCompatActivity
             return searchedProducts;
         }
 
+        // TODO (progressbar-4) onPostExecute make the progressbar invisible and the recycleview visible
         @Override
         protected void onPostExecute(Product[] p) {
             if (p != null) {
+                // TODO (recyclerview-6) set new data to adapter and delete setAdapter
                 ProductAdapter adapter = new ProductAdapter(getApplicationContext());
                 adapter.setProductData(p);
                 mRecyclerView.setAdapter(adapter);

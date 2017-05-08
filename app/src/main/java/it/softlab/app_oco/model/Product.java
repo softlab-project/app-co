@@ -7,6 +7,7 @@ import android.os.Parcelable;
  * Created by claudio on 5/3/17.
  */
 
+// TODO (sort-1) implements the comparable interface
 public class Product implements Parcelable {
     private final String name;
     private final String location;
@@ -58,4 +59,5 @@ public class Product implements Parcelable {
         this.price = in.readString();
 
     }
+    // TODO (sort-2) implements compareTo
 }
