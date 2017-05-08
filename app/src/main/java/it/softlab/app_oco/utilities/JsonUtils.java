@@ -41,8 +41,9 @@ public class JsonUtils {
                     .getJSONArray("currentPrice")
                     .getJSONObject(0)
                     .getString("__value__");
+            String country = item.getJSONArray("globalId").getString(0);
 
-            parsedData[i] = new Product(title,location,price);
+            parsedData[i] = new Product(title,location,price,country);
         }
 
 

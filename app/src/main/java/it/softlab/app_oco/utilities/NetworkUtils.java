@@ -27,6 +27,7 @@ public class NetworkUtils {
     }
 
     public static URL buildUrlWithKeywordAndSiteId(String keyword, String siteId) {
+        // see here: http://developer.ebay.com/DevZone/finding/CallRef/findItemsByKeywords.html#sort
         Uri queryUri = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter("OPERATION-NAME","findItemsByKeywords")
                 .appendQueryParameter("SERVICE-VERSION","1.0.0")
@@ -37,6 +38,7 @@ public class NetworkUtils {
                 .appendQueryParameter("paginationInput.entriesPerPage","10")
                 .appendQueryParameter("siteId",siteId)
                 .appendQueryParameter("GLOBAL-ID",siteidToGlobalId(siteId))
+                //.appendQueryParameter("sortOrder","PricePlusShippingLowest")
                 .build();
 
         URL queryURL = null;

@@ -6,17 +6,38 @@
     android:orientation="vertical"
     tools:context="it.softlab.app_oco.MainActivity">
 
+    <!-- TODO (actionsearch-1) add imeOptions as actionSearch-->
+    <!-- TODO (actionsearch-2) add inputType as text -->
     <EditText
         android:id="@+id/et_search_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/search_article_hint" />
+        android:hint="@string/search_article_hint"
+        android:inputType="text"
+        android:imeOptions="actionSend"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_search_result"
+    <!-- TODO (progressbar-1) Wrap the RecyclerView inside a FrameLayout
+      - to be able to add more views on the same area of the screen -->
+    <!-- TODO (progressbar-2) Inside the FrameLayout, add a ProgressBar
+      - use width and height of 42dp, layout gravity center, visibility:invisible -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="8dp"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_search_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="8dp" />
+
+        <ProgressBar
+            android:id="@+id/pb_loading_indicator"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
+
+    </FrameLayout>
 
 </LinearLayout>

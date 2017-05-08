@@ -8,9 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.json.JSONException;
 
@@ -34,6 +39,10 @@ public class MainActivity extends AppCompatActivity
     Product[] mSearchedProducts;
     private static final String KEY_LIST_DATA = "key_list_data";
 
+    EditText mSearchEditText;
+    ProgressBar mLoadingIndicator;
+    ProductAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +56,33 @@ public class MainActivity extends AppCompatActivity
                         false);
         mRecyclerView.setLayoutManager(layoutManager);
 
+        // TODO (recyclerview-2) create an adapter, assign to class field and set to the recyclerview
+        mAdapter = new ProductAdapter(this);
+        mRecyclerView.setAdapter(mAdapter);
+
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(KEY_LIST_DATA)) {
                 mSearchedProducts = (Product[]) savedInstanceState.getParcelableArray(KEY_LIST_DATA);
-                ProductAdapter adapter = new ProductAdapter(this);
-                adapter.setProductData(mSearchedProducts);
-                mRecyclerView.setAdapter(adapter);
+                // TODO (recyclerview-3) set new data to adapter and delete setAdapter
+                mAdapter.setProductData(mSearchedProducts);
             }
         }
+
+        // TODO (actionsearch-3)  add setOnEditorActionListener on the search edit text view
+        // Manage IME_ACTION_SEND and run the query
+        mSearchEditText = (EditText) findViewById(R.id.et_search_product);
+        mSearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                                                      @Override
+                                                      public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                                          if (actionId == EditorInfo.IME_ACTION_SEND) {
+                                                              loadData();
+                                                              return true;
+                                                          }
+                                                          return false;
+                                                      }
+                                                  });
+
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         setupSharedPreferences();
 
@@ -82,8 +110,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadData() {
-        EditText searchProductEditText = (EditText) findViewById(R.id.et_search_product);
-        String searchedProduct = searchProductEditText.getText().toString();
+        String searchedProduct = mSearchEditText.getText().toString();
 
         new FetchDataTask().execute(searchedProduct);
     }
@@ -119,20 +146,36 @@ public class MainActivity extends AppCompatActivity
             mShowUSA = sharedPreferences.getBoolean(
                     getString(R.string.pref_show_us_key),
                     getResources().getBoolean(R.bool.pref_show_us_default));
-            ProductAdapter adapter = new ProductAdapter(getApplicationContext());
-            adapter.setProductData(null);
-            mRecyclerView.setAdapter(adapter);
+            // TODO (recyclerview-4) set new data to adapter and delete setAdapter
+            mAdapter.setProductData(null);
         } else if (s.equals(getString(R.string.pref_show_it_key))) {
             mShowUSA = sharedPreferences.getBoolean(
                     getString(R.string.pref_show_it_key),
                     getResources().getBoolean(R.bool.pref_show_it_default));
-            ProductAdapter adapter = new ProductAdapter(getApplicationContext());
-            adapter.setProductData(null);
-            mRecyclerView.setAdapter(adapter);
+            // TODO (recyclerview-5) set new data to adapter and delete setAdapter
+            mAdapter.setProductData(null);
         }
     }
 
+    private void showLoading() {
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mLoadingIndicator.setVisibility(View.VISIBLE);
+    }
+
+    private void showList() {
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
     public class FetchDataTask extends AsyncTask<String, Void, Product[]> {
+
+        // TODO (progressbar-3) Override onPreExecute and make the progressbar visible and recycleview invisible
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showLoading();
+        }
 
         @Override
         protected Product[] doInBackground(String... strings) {
@@ -159,6 +202,9 @@ public class MainActivity extends AppCompatActivity
             }
             mSearchedProducts = productList.toArray(new Product[productList.size()]);
 
+            // TODO (sort-3) sort the array before returning it
+            Arrays.sort(mSearchedProducts);
+
             return mSearchedProducts;
 
         }
@@ -181,12 +227,13 @@ public class MainActivity extends AppCompatActivity
             return searchedProducts;
         }
 
+        // TODO (progressbar-4) onPostExecute make the progressbar invisible and the recycleview visible
         @Override
         protected void onPostExecute(Product[] p) {
             if (p != null) {
-                ProductAdapter adapter = new ProductAdapter(getApplicationContext());
-                adapter.setProductData(p);
-                mRecyclerView.setAdapter(adapter);
+                // TODO (recyclerview-6) set new data to adapter and delete setAdapter
+                mAdapter.setProductData(p);
+                showList();
             }
         }
 
