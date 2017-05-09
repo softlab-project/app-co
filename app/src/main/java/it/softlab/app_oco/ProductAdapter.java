@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.softlab.app_oco.model.Product;
+import it.softlab.app_oco.utilities.JsonUtils;
 
 /**
  * Created by claudio on 5/3/17.
@@ -44,10 +45,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
     private int countryToResourceId(String country) {
         int countryResourceId;
         switch (country) {
-            case "EBAY-US":
+            case JsonUtils.COUNTRY_US:
                 countryResourceId = R.drawable.ic_country_us;
                 break;
-            case "EBAY-IT":
+            case JsonUtils.COUNTRY_IT:
                 countryResourceId = R.drawable.ic_country_italy;
                 break;
             default:

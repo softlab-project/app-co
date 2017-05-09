@@ -25,6 +25,9 @@ public class JsonUtils {
     private static final String KEY_VALUE = "__value__";
     private static final String KEY_GLOBALID = "globalId";
 
+    public static final String COUNTRY_US = "EBAY-US";
+    public static final String COUNTRY_IT = "EBAY-IT";
+
     public static Product[] getProductDetails(String jsonString) throws JSONException {
         Product[] parsedData = null;
 
