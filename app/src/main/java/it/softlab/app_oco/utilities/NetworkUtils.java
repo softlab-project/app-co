@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 
 public class NetworkUtils {
-    private static final String BASE_URL = "http://svcs.ebay.com/services/search/FindingService/v1";
+    public static final String BASE_URL = "http://svcs.ebay.com/services/search/FindingService/v1";
 
     private static final String GLOBALID_US = "EBAY-US";
     private static final String GLOBALID_IT = "EBAY-IT";
@@ -23,7 +23,7 @@ public class NetworkUtils {
     public static final String SITEID_IT = "101";
 
     public static URL buildUrlWithKeyword(String keyword) {
-        return buildUrlWithKeywordAndSiteId(keyword,"0");
+        return buildUrlWithKeywordAndSiteId(keyword,SITEID_US);
     }
 
     public static URL buildUrlWithKeywordAndSiteId(String keyword, String siteId) {

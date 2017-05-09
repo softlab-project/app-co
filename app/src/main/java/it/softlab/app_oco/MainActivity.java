@@ -17,16 +17,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import it.softlab.app_oco.model.Product;
-import it.softlab.app_oco.utilities.JsonUtils;
+import it.softlab.app_oco.sync.QuerySyncTask;
 import it.softlab.app_oco.utilities.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity
@@ -179,52 +171,22 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected Product[] doInBackground(String... strings) {
-            List<Product> productList = new ArrayList<>();
 
             if (strings.length == 0) {
                 return null;
             }
 
-            String query = strings[0];
-            Product[] searchedProductsUSA = null;
-            if (mShowUSA) {
-                searchedProductsUSA = searchedProductsByKeywordAndSiteID(query, NetworkUtils.SITEID_US);
-                if (searchedProductsUSA!=null) {
-                    productList.addAll(Arrays.asList(searchedProductsUSA));
-                }
-            }
-            Product[] searchedProductsITA = null;
-            if (mShowITA) {
-                searchedProductsITA = searchedProductsByKeywordAndSiteID(query, NetworkUtils.SITEID_IT);
-                if (searchedProductsITA!=null) {
-                    productList.addAll(Arrays.asList(searchedProductsITA));
-                }
-            }
-            mSearchedProducts = productList.toArray(new Product[productList.size()]);
+            String queryString = strings[0];
+            String[] siteIdArray = {NetworkUtils.SITEID_US,NetworkUtils.SITEID_IT};
+            boolean[] showSiteIdArray = {mShowUSA,mShowITA};
 
-            // TODO (sort-3) sort the array before returning it
-            Arrays.sort(mSearchedProducts);
+            mSearchedProducts = QuerySyncTask.queryProducts(queryString,
+                    siteIdArray,
+                    showSiteIdArray);
+
 
             return mSearchedProducts;
 
-        }
-
-        private Product[] searchedProductsByKeywordAndSiteID(String query, String siteidUs) {
-            Product[] searchedProducts = null;
-            URL searchURL = NetworkUtils.buildUrlWithKeywordAndSiteId(query, siteidUs);
-
-            String jsonResponse = null;
-            try {
-                jsonResponse = NetworkUtils.getResponseFromUrl(searchURL);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                searchedProducts = JsonUtils.getProductDetails(jsonResponse);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return searchedProducts;
         }
 
         // TODO (progressbar-4) onPostExecute make the progressbar invisible and the recycleview visible
