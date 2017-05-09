@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity
                 e.printStackTrace();
             }
             try {
-                searchedProducts = JsonUtils.getSimpleProductDescription(jsonResponse);
+                searchedProducts = JsonUtils.getProductDetails(jsonResponse);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

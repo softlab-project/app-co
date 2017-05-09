@@ -12,8 +12,7 @@ import it.softlab.app_oco.model.Product;
 
 public class JsonUtils {
 
-    // TODO rename product in products
-    public static Product[] getSimpleProductDescription(String jsonString) throws JSONException {
+    public static Product[] getProductDetails(String jsonString) throws JSONException {
         Product[] parsedData = null;
 
         JSONObject dataJson = new JSONObject(jsonString);

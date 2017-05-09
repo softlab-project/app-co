@@ -37,7 +37,7 @@ public class NetworkUtils {
                 .appendQueryParameter("keywords",keyword)
                 .appendQueryParameter("paginationInput.entriesPerPage","10")
                 .appendQueryParameter("siteId",siteId)
-                .appendQueryParameter("GLOBAL-ID",siteidToGlobalId(siteId))
+                .appendQueryParameter("GLOBAL-ID",siteIdToGlobalId(siteId))
                 //.appendQueryParameter("sortOrder","PricePlusShippingLowest")
                 .build();
 
@@ -53,7 +53,7 @@ public class NetworkUtils {
         return queryURL;
     }
 
-    private static String siteidToGlobalId(String siteId) {
+    private static String siteIdToGlobalId(String siteId) {
         String globalId = "";
         switch (siteId) {
             case SITEID_US: globalId = GLOBALID_US;break;
