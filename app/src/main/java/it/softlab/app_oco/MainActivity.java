@@ -10,7 +10,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import org.json.JSONException;
 
@@ -18,16 +21,22 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import it.softlab.app_oco.model.Product;
 import it.softlab.app_oco.utilities.JsonUtils;
 import it.softlab.app_oco.utilities.NetworkUtils;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     RecyclerView mRecyclerView;
+    ProgressBar mProgressBar;
     private boolean mShowUSA;
     private boolean mShowITA;
 
@@ -39,13 +48,14 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mProgressBar  = (ProgressBar) findViewById(R.id.pb_content_loading);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_search_result);
         RecyclerView.LayoutManager layoutManager =
                 new LinearLayoutManager(this,
                         LinearLayoutManager.VERTICAL,
                         false);
         mRecyclerView.setLayoutManager(layoutManager);
+
         // TODO (recyclerview-2) create an adapter, assign to class field and set to the recyclerview
 
         if (savedInstanceState != null) {
@@ -58,8 +68,18 @@ public class MainActivity extends AppCompatActivity
         }
 
         // TODO (actionsearch-3)  add setOnEditorActionListener on the search edit text view
-        // Manage IME_ACTION_SEND and run the query
+        //Manage IME_ACTION_SEND and run the query
+      final EditText editSearchProduct = (EditText) findViewById(R.id.et_search_product);
+        editSearchProduct.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+
+                editSearchProduct.setImeOptions(EditorInfo.IME_ACTION_DONE);
+               //myIdtext1 = edit1.getText().toString();
+                loadData();
+            }
+        });
 
         setupSharedPreferences();
 
@@ -139,10 +159,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public class FetchDataTask extends AsyncTask<String, Void, Product[]> {
+    public class FetchDataTask extends AsyncTask<String, Integer, Product[]> {
 
-        // TODO (progressbar-3) Override onPreExecute and make the progressbar visible and recycleview invisible
-
+        // TODO (progressbar-3) Override onPreExecute and make the progressbar visible and recycleview invisible done
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressBar.setVisibility(VISIBLE);
+            mRecyclerView.setVisibility(INVISIBLE);
+        }
         @Override
         protected Product[] doInBackground(String... strings) {
             List<Product> productList = new ArrayList<>();
@@ -168,11 +193,13 @@ public class MainActivity extends AppCompatActivity
             }
             mSearchedProducts = productList.toArray(new Product[productList.size()]);
 
-            // TODO (sort-3) sort the array before returning it
-
+            // TODO (sort-3) sort the array before returning it DONE
+            Arrays.sort(mSearchedProducts);
             return mSearchedProducts;
 
         }
+
+
 
         private Product[] searchedProductsByKeywordAndSiteID(String query, String siteidUs) {
             Product[] searchedProducts = null;
@@ -201,6 +228,16 @@ public class MainActivity extends AppCompatActivity
                 adapter.setProductData(p);
                 mRecyclerView.setAdapter(adapter);
             }
+           // mProgressBar.setVisibility(INVISIBLE);
+            //mRecyclerView.setVisibility(VISIBLE);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            Integer newVal = values[0];
+            System.out.println(newVal);
+            mProgressBar.setProgress(values[0]);
         }
 
 

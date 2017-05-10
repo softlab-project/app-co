@@ -13,13 +13,26 @@
         android:id="@+id/et_search_product"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/search_article_hint" />
+        android:hint="@string/search_article_hint"
+        android:imeOptions="actionSearch"
+        android:maxLines="1"
+        />
 
     <!-- TODO (progressbar-1) Wrap the RecyclerView inside a FrameLayout
       - to be able to add more views on the same area of the screen -->
     <!-- TODO (progressbar-2) Inside the FrameLayout, add a ProgressBar
       - use width and height of 42dp, layout gravity center, visibility:invisible -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pb_content_loading"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
 
+
+            />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_search_result"
@@ -27,5 +40,5 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="8dp"/>
-
+    </FrameLayout>
 </LinearLayout>

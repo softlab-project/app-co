@@ -2,13 +2,15 @@ package it.softlab.app_oco.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 /**
  * Created by claudio on 5/3/17.
  */
 
-// TODO (sort-1) implements the comparable interface
-public class Product implements Parcelable {
+// TODO (sort-1) implements the comparable interface Done
+
+public class Product implements Parcelable ,Comparable<Product> {
     private final String name;
     private final String location;
     private final String price;
@@ -59,5 +61,11 @@ public class Product implements Parcelable {
         this.price = in.readString();
 
     }
-    // TODO (sort-2) implements compareTo
+
+    @Override
+    public int compareTo(@NonNull Product o) {
+       return Double.compare(Double.parseDouble(this.price),Double.parseDouble(o.getPrice()));
+
+    }
+    // TODO (sort-2) implements compareTo Done
 }
