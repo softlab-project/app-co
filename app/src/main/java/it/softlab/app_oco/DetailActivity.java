@@ -1,6 +1,7 @@
 package it.softlab.app_oco;
 
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import it.softlab.app_oco.model.Product;
+import it.softlab.app_oco.sync.ImageSyncTask;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -35,7 +37,12 @@ public class DetailActivity extends AppCompatActivity {
         mLocationTextView.setText(product.getLocation());
         mPriceTextView.setText(product.getPrice());
         mCountryTextView.setText(product.getCountry());
-        mImageGallery.setImageURI(Uri.parse(product.getGalleryUrlString()));
+
+        String galleryUrlString = product.getGalleryUrlString();
+        if (galleryUrlString!=null && !galleryUrlString.isEmpty()) {
+
+            new FetchImageTask().execute(galleryUrlString);
+        }
 
         ActionBar actionBar = this.getSupportActionBar();
         if (actionBar != null){
@@ -49,5 +56,25 @@ public class DetailActivity extends AppCompatActivity {
             NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class FetchImageTask extends AsyncTask<String,Void,Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            if (strings.length == 0) {
+                return null;
+            }
+            String galleryUrlString = strings[0];
+
+            return ImageSyncTask.fetchImage(galleryUrlString);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            if (bitmap != null) {
+                mImageGallery.setImageBitmap(bitmap);
+            }
+        }
     }
 }

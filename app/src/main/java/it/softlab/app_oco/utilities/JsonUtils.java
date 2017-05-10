@@ -24,6 +24,7 @@ public class JsonUtils {
     private static final String KEY_CURRENT_PRICE = "currentPrice";
     private static final String KEY_VALUE = "__value__";
     private static final String KEY_GLOBALID = "globalId";
+    private static final String KEY_GALLERY = "galleryURL";
 
     public static final String COUNTRY_US = "EBAY-US";
     public static final String COUNTRY_IT = "EBAY-IT";
@@ -57,8 +58,9 @@ public class JsonUtils {
                     .getJSONObject(0)
                     .getString(KEY_VALUE);
             String country = item.getJSONArray(KEY_GLOBALID).getString(0);
+            String galleryUrl = item.getJSONArray(KEY_GALLERY).getString(0);
 
-            parsedData[i] = new Product(title,location,price,country);
+            parsedData[i] = new Product(title,location,price,country,galleryUrl);
         }
 
 

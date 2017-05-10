@@ -26,6 +26,21 @@ public class ProductTest {
     }
 
     @Test
+    public void constructorTest2_ok() {
+        String NAME = "name";
+        String LOCATION = "location";
+        String PRICE = "price";
+        String COUNTRY = "country";
+        String GALLERY = "country";
+        Product p = new Product(NAME, LOCATION, PRICE, COUNTRY,GALLERY);
+        assertThat(p.getName(),is(NAME));
+        assertThat(p.getLocation(),is(LOCATION));
+        assertThat(p.getPrice(),is(PRICE));
+        assertThat(p.getCountry(),is(COUNTRY));
+        assertThat(p.getGalleryUrlString(),is(GALLERY));
+    }
+
+    @Test
     public void compareTest_1() {
         String PRICE_1 = "10.0";
         String PRICE_2 = "20.0";
