@@ -78,6 +78,18 @@ public class MainActivity extends AppCompatActivity
 
         setupSharedPreferences();
 
+        // TODO remove, debug only
+//        Product p = new Product("name","location","price","country","http://thumbs4.ebaystatic.com/m/mNTFKaH9UkE_OlLXo1mbljA/140.jpg");
+//        startDetailActivity(p);
+
+    }
+
+    private void startDetailActivity(Product p){
+        Intent intent = new Intent(this,DetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("data",p);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
