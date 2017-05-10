@@ -14,12 +14,18 @@ public class Product implements Parcelable, Comparable<Product> {
     private final String location;
     private final String price;
     private final String country;
+    private final String galleryUrlString;
 
     public Product(String name, String location, String price, String country) {
+        this(name,location,price,country,"");
+    }
+
+    public Product(String name, String location, String price, String country, String galleryUrl) {
         this.name = name;
         this.location = location;
         this.price = price;
         this.country = country;
+        this.galleryUrlString = galleryUrl;
     }
 
     public String getName() {
@@ -50,6 +56,7 @@ public class Product implements Parcelable, Comparable<Product> {
         parcel.writeString(location);
         parcel.writeString(price);
         parcel.writeString(country);
+        parcel.writeString(galleryUrlString);
     }
     public static final Parcelable.Creator<Product> CREATOR
             = new Parcelable.Creator<Product>() {
@@ -66,6 +73,7 @@ public class Product implements Parcelable, Comparable<Product> {
         this.location = in.readString();
         this.price = in.readString();
         this.country = in.readString();
+        this.galleryUrlString = in.readString();
 
     }
 
@@ -83,5 +91,9 @@ public class Product implements Parcelable, Comparable<Product> {
         }
 
         return 0;
+    }
+
+    public String getGalleryUrlString() {
+        return galleryUrlString;
     }
 }
