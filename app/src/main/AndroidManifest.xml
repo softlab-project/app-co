@@ -48,7 +48,12 @@
         </service>
         <service
             android:name=".sync.CancelReminderIntentService"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <receiver
+            android:name=".receivers.ConnectionBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

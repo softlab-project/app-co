@@ -1,6 +1,7 @@
 package it.softlab.app_oco;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import it.softlab.app_oco.model.Product;
+import it.softlab.app_oco.receivers.ConnectionBroadcastReceiver;
 import it.softlab.app_oco.sync.QuerySyncTask;
 import it.softlab.app_oco.utilities.JsonUtils;
 import it.softlab.app_oco.utilities.NetworkUtils;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     EditText mSearchEditText;
     ProgressBar mLoadingIndicator;
     ProductAdapter mAdapter;
+    ConnectionBroadcastReceiver mBroadcastReceiver;
 
     SharedPreferences mSharedPreferences;
 
@@ -100,6 +103,23 @@ public class MainActivity extends AppCompatActivity
         intent.putExtras(bundle);
 
         startActivity(intent);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+        IntentFilter filter = new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        mBroadcastReceiver  = new ConnectionBroadcastReceiver();
+        registerReceiver(mBroadcastReceiver,filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+        unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override
