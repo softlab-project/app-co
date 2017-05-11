@@ -5,9 +5,9 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <!-- TODO (item-1) prettify the item! -->
-    <!-- TODO (item-2) add an image view to show the flag of the country, with w and h of 40dp -->
-    <!-- TODO (item-3) modify JSONUtils, ProductAdapter and ProductViewHolder to show the image -->
+    <!-- DONE (item-1) prettify the item! -->
+    <!-- DONE (item-2) add an image view to show the flag of the country, with w and h of 40dp -->
+    <!-- DONE (item-3) modify JSONUtils, ProductAdapter and ProductViewHolder to show the image -->
 
 
     <ImageView

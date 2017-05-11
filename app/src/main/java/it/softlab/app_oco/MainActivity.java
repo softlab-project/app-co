@@ -48,25 +48,25 @@ public class MainActivity extends AppCompatActivity
                         false);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        // TODO (recyclerview-2) create an adapter, assign to class field and set to the recyclerview
+        // DONE (recyclerview-2) create an adapter, assign to class field and set to the recyclerview
         mAdapter = new ProductAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(KEY_LIST_DATA)) {
                 mSearchedProducts = (Product[]) savedInstanceState.getParcelableArray(KEY_LIST_DATA);
-                // TODO (recyclerview-3) set new data to adapter and delete setAdapter
+                // DONE (recyclerview-3) set new data to adapter and delete setAdapter
                 mAdapter.setProductData(mSearchedProducts);
             }
         }
 
-        // TODO (actionsearch-3)  add setOnEditorActionListener on the search edit text view
-        // Manage IME_ACTION_SEND and run the query
+        // DONE (actionsearch-3)  add setOnEditorActionListener on the search edit text view
+        // Manage IME_ACTION_SEARCH and run the query
         mSearchEditText = (EditText) findViewById(R.id.et_search_product);
         mSearchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                                                       @Override
                                                       public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                                                          if (actionId == EditorInfo.IME_ACTION_SEND) {
+                                                          if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                                                               loadData();
                                                               return true;
                                                           }
@@ -149,13 +149,13 @@ public class MainActivity extends AppCompatActivity
             mShowUSA = sharedPreferences.getBoolean(
                     getString(R.string.pref_show_us_key),
                     getResources().getBoolean(R.bool.pref_show_us_default));
-            // TODO (recyclerview-4) set new data to adapter and delete setAdapter
+            // DONE (recyclerview-4) set new data to adapter and delete setAdapter
             mAdapter.setProductData(null);
         } else if (s.equals(getString(R.string.pref_show_it_key))) {
-            mShowUSA = sharedPreferences.getBoolean(
+            mShowITA = sharedPreferences.getBoolean(
                     getString(R.string.pref_show_it_key),
                     getResources().getBoolean(R.bool.pref_show_it_default));
-            // TODO (recyclerview-5) set new data to adapter and delete setAdapter
+            // DONE (recyclerview-5) set new data to adapter and delete setAdapter
             mAdapter.setProductData(null);
         }
     }
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity
 
     public class FetchDataTask extends AsyncTask<String, Void, Product[]> {
 
-        // TODO (progressbar-3) Override onPreExecute and make the progressbar visible and recycleview invisible
+        // DONE (progressbar-3) Override onPreExecute and make the progressbar visible and recycleview invisible
 
         @Override
         protected void onPreExecute() {
@@ -200,11 +200,11 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        // TODO (progressbar-4) onPostExecute make the progressbar invisible and the recycleview visible
+        // DONE (progressbar-4) onPostExecute make the progressbar invisible and the recycleview visible
         @Override
         protected void onPostExecute(Product[] p) {
             if (p != null) {
-                // TODO (recyclerview-6) set new data to adapter and delete setAdapter
+                // DONE (recyclerview-6) set new data to adapter and delete setAdapter
                 mAdapter.setProductData(p);
                 showList();
             }

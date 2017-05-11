@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
  * Created by claudio on 5/3/17.
  */
 
-// TODO (sort-1) implements the comparable interface
+// DONE (sort-1) implements the comparable interface
 public class Product implements Parcelable, Comparable<Product> {
     private final String name;
     private final String location;
@@ -77,7 +77,7 @@ public class Product implements Parcelable, Comparable<Product> {
 
     }
 
-    // TODO (sort-2) implements compareTo
+    // DONE (sort-2) implements compareTo
     @Override
     public int compareTo(@NonNull Product product) {
         float otherPrice = Float.valueOf(product.getPrice());

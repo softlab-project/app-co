@@ -38,7 +38,7 @@ public class QuerySyncTask {
 
         Product[] searchedProducts = productList.toArray(new Product[productList.size()]);
 
-        // TODO (sort-3) sort the array before returning it
+        // DONE (sort-3) sort the array before returning it
         Arrays.sort(searchedProducts);
         return searchedProducts;
     }

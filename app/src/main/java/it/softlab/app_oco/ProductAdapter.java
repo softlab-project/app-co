@@ -68,7 +68,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
 
     public void setProductData(Product[] p) {
         mProductData = p;
-        // TODO (recyclerview-1) add notifyDataSetChanged() to notify recycler view that data is changed
+        // DONE (recyclerview-1) add notifyDataSetChanged() to notify recycler view that data is changed
         notifyDataSetChanged();
     }
 }
