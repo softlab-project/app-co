@@ -22,6 +22,7 @@ import it.softlab.app_oco.sync.QuerySyncTask;
 import it.softlab.app_oco.utilities.JsonUtils;
 import it.softlab.app_oco.utilities.NetworkUtils;
 import it.softlab.app_oco.utilities.NotificationUtils;
+import it.softlab.app_oco.utilities.ReminderUtils;
 
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity
     EditText mSearchEditText;
     ProgressBar mLoadingIndicator;
     ProductAdapter mAdapter;
+
+    SharedPreferences mSharedPreferences;
 
 
     @Override
@@ -86,6 +89,8 @@ public class MainActivity extends AppCompatActivity
 
 //        startDetailActivity(product);
 
+        ReminderUtils.schedulePriceCheckReminder(this);
+
     }
 
     private void startDetailActivity(Product product) {
@@ -100,12 +105,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .unregisterOnSharedPreferenceChangeListener(this);
+        mSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     private void setupSharedPreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mShowUSA = sharedPreferences.getBoolean(
                 getString(R.string.pref_show_us_key),
                 getResources().getBoolean(R.bool.pref_show_us_default));
@@ -114,7 +118,7 @@ public class MainActivity extends AppCompatActivity
                 getResources().getBoolean(R.bool.pref_show_it_default));
 
 
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     private void loadData() {
@@ -199,6 +203,8 @@ public class MainActivity extends AppCompatActivity
             mSearchedProducts = QuerySyncTask.queryProducts(queryString,
                     siteIdArray,
                     showSiteIdArray);
+
+
 
 
             return mSearchedProducts;
