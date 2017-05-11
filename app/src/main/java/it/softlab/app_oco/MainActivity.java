@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,7 @@ import it.softlab.app_oco.utilities.ReminderUtils;
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private static final String TAG = "MainActivity";
     RecyclerView mRecyclerView;
     private boolean mShowUSA;
     private boolean mShowITA;
@@ -88,8 +90,6 @@ public class MainActivity extends AppCompatActivity
 //        NotificationUtils.priceChangedNotification(this,product);
 
 //        startDetailActivity(product);
-
-        ReminderUtils.schedulePriceCheckReminder(this);
 
     }
 
@@ -204,14 +204,6 @@ public class MainActivity extends AppCompatActivity
                     siteIdArray,
                     showSiteIdArray);
 
-            if (mSearchedProducts!=null && mSearchedProducts.length > 0) {
-                String lowerPrice = mSearchedProducts[0].getPrice();
-                mSharedPreferences.edit()
-                        .putString(getString(R.string.pref_search_string_key), queryString)
-                        .putString(getString(R.string.pref_lower_price_key), lowerPrice)
-                        .apply();
-            }
-
             return mSearchedProducts;
 
         }
@@ -223,6 +215,17 @@ public class MainActivity extends AppCompatActivity
                 // DONE (recyclerview-6) set new data to adapter and delete setAdapter
                 mAdapter.setProductData(p);
                 showList();
+
+                if (mSearchedProducts!=null && mSearchedProducts.length > 0) {
+                    String lowerPrice = mSearchedProducts[0].getPrice();
+                    String queryString = mSearchEditText.getText().toString();
+                    mSharedPreferences.edit()
+                            .putString(getString(R.string.pref_search_string_key), queryString)
+                            .putString(getString(R.string.pref_lower_price_key), lowerPrice)
+                            .apply();
+                    ReminderUtils.schedulePriceCheckReminder(MainActivity.this);
+                    Log.d(TAG, "onPostExecute: ok");
+                }
             }
         }
 
