@@ -21,7 +21,7 @@
     <string name="action_detail">Product detail</string>
     <string name="notification_title">New price!</string>
     <string name="notification_body">A lower price for your saved item</string>
-
+    <string name="notification_action_cancel">Not interested</string>
 
 
 </resources>

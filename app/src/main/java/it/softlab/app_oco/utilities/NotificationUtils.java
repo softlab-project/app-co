@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat.Action;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 
+import it.softlab.app_oco.sync.CancelReminderIntentService;
 import it.softlab.app_oco.DetailActivity;
 import it.softlab.app_oco.R;
 import it.softlab.app_oco.model.Product;
@@ -22,20 +24,33 @@ import it.softlab.app_oco.model.Product;
 public class NotificationUtils {
 
     private static int PRICE_CHANGED_PENDING_INTENT_ID = 1983;
+    private static int CANCEL_PENDING_INTENT_ID = 2980;
     private static int PRICE_CHANGED_NOTIFICATION_ID = 2017;
 
     public static void priceChangedNotification(Context context, Product product) {
 
-        Intent intent = new Intent(context,DetailActivity.class);
+        Intent checkPriceIntent = new Intent(context,DetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(DetailActivity.KEY_DATA,product);
-        intent.putExtras(bundle);
+        checkPriceIntent.putExtras(bundle);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(
+        PendingIntent checkPricePendingIntent = PendingIntent.getActivity(
                 context,
                 PRICE_CHANGED_PENDING_INTENT_ID,
-                intent,
+                checkPriceIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent cancelIntent = new Intent(context,CancelReminderIntentService.class);
+
+        PendingIntent cancelPendingIntent = PendingIntent.getService(
+                context,
+                CANCEL_PENDING_INTENT_ID,
+                cancelIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Action action = new Action(android.R.drawable.ic_delete,
+                context.getString(R.string.notification_action_cancel),
+                cancelPendingIntent);
 
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
@@ -46,8 +61,9 @@ public class NotificationUtils {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(
                         context.getString(R.string.notification_body)))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
+                .setContentIntent(checkPricePendingIntent)
+                .setAutoCancel(true)
+                .addAction(action);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             notificationBuilder.setPriority(Notification.PRIORITY_HIGH);

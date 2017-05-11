@@ -53,7 +53,9 @@ public class PriceCheckJobService extends JobService {
 
                 if (searchedProducts!=null && searchedProducts.length>0) {
                     String newPrice = searchedProducts[0].getPrice();
-                    if (Double.valueOf(newPrice) < Double.valueOf(priceString)) {
+                    // TODO debug only: remove equal!
+//                    if (Double.valueOf(newPrice) < Double.valueOf(priceString)) {
+                        if (Double.valueOf(newPrice) <= Double.valueOf(priceString)) {
                         Log.d(TAG, "doInBackground: new item!!! " + newPrice);
                         NotificationUtils.priceChangedNotification(context, searchedProducts[0]);
                     }
