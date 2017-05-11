@@ -24,11 +24,11 @@ import it.softlab.app_oco.receivers.ConnectionBroadcastReceiver;
 import it.softlab.app_oco.sync.QuerySyncTask;
 import it.softlab.app_oco.utilities.JsonUtils;
 import it.softlab.app_oco.utilities.NetworkUtils;
-import it.softlab.app_oco.utilities.NotificationUtils;
 import it.softlab.app_oco.utilities.ReminderUtils;
 
 public class MainActivity extends AppCompatActivity
-        implements SharedPreferences.OnSharedPreferenceChangeListener {
+        implements SharedPreferences.OnSharedPreferenceChangeListener,
+ProductAdapter.ProductAdapterOnClickListener {
 
     private static final String TAG = "MainActivity";
     RecyclerView mRecyclerView;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView.setLayoutManager(layoutManager);
 
         // DONE (recyclerview-2) create an adapter, assign to class field and set to the recyclerview
-        mAdapter = new ProductAdapter(this);
+        mAdapter = new ProductAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
 
         if (savedInstanceState != null) {
@@ -87,12 +87,6 @@ public class MainActivity extends AppCompatActivity
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         setupSharedPreferences();
-
-        // TODO remove, debug only
-        Product product = new Product("iPhone","Roma","100", JsonUtils.COUNTRY_IT,"http://thumbs4.ebaystatic.com/m/mNTFKaH9UkE_OlLXo1mbljA/140.jpg");
-//        NotificationUtils.priceChangedNotification(this,product);
-
-//        startDetailActivity(product);
 
     }
 
@@ -197,6 +191,11 @@ public class MainActivity extends AppCompatActivity
     private void showList() {
         mLoadingIndicator.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onListItemClick(int position) {
+        startDetailActivity(mSearchedProducts[position]);
     }
 
     public class FetchDataTask extends AsyncTask<String, Void, Product[]> {

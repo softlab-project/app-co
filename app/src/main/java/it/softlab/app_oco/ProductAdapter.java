@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import it.softlab.app_oco.model.Product;
 import it.softlab.app_oco.utilities.JsonUtils;
@@ -14,14 +16,16 @@ import it.softlab.app_oco.utilities.JsonUtils;
  * Created by claudio on 5/3/17.
  */
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     private static final String TAG = "ProductAdapter";
 
     private final Context mContext;
     private Product[] mProductData;
+    private final ProductAdapterOnClickListener mOnClickListener;
 
-    public ProductAdapter(Context context) {
+    public ProductAdapter(Context context, ProductAdapterOnClickListener listener) {
         mContext = context;
+        mOnClickListener = listener;
     }
 
     @Override
@@ -70,5 +74,32 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductViewHolder> {
         mProductData = p;
         // DONE (recyclerview-1) add notifyDataSetChanged() to notify recycler view that data is changed
         notifyDataSetChanged();
+    }
+
+    public interface ProductAdapterOnClickListener {
+        void onListItemClick(int position);
+    }
+
+    public class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        final TextView mNameTextView;
+        final TextView mLocationTextView;
+        final TextView mPriceTextView;
+        final ImageView mIconView;
+
+        public ProductViewHolder(View itemView) {
+            super(itemView);
+            mNameTextView = (TextView)itemView.findViewById(R.id.tv_item_name);
+            mLocationTextView = (TextView)itemView.findViewById(R.id.tv_item_location);
+            mPriceTextView = (TextView)itemView.findViewById(R.id.tv_item_price);
+            mIconView = (ImageView) itemView.findViewById(R.id.ic_country_flag);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int clickedPosition = getAdapterPosition();
+            mOnClickListener.onListItemClick(clickedPosition);
+        }
     }
 }
