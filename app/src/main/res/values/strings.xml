@@ -14,5 +14,7 @@
     <string name="pref_show_it_key" translatable="false">it_key</string>
     <string name="pref_show_it_label">Italy</string>
     <string name="action_detail">Product detail</string>
+    <string name="notification_title">New price!</string>
+    <string name="notification_body">A lower price for your saved item</string>
 
 </resources>

@@ -15,6 +15,8 @@ import it.softlab.app_oco.sync.ImageSyncTask;
 
 public class DetailActivity extends AppCompatActivity {
 
+    public static final String KEY_DATA = "data";
+
     private TextView mNameTextView;
     private TextView mLocationTextView;
     private TextView mPriceTextView;
@@ -32,7 +34,7 @@ public class DetailActivity extends AppCompatActivity {
         mImageGallery = (ImageView)findViewById(R.id.iv_detail_gallery);
 
         Bundle bundle = getIntent().getExtras();
-        Product product = bundle.getParcelable("data");
+        Product product = bundle.getParcelable(KEY_DATA);
         mNameTextView.setText(product.getName());
         mLocationTextView.setText(product.getLocation());
         mPriceTextView.setText(product.getPrice());

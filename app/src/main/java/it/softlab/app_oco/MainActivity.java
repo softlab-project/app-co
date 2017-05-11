@@ -19,7 +19,9 @@ import android.widget.TextView;
 
 import it.softlab.app_oco.model.Product;
 import it.softlab.app_oco.sync.QuerySyncTask;
+import it.softlab.app_oco.utilities.JsonUtils;
 import it.softlab.app_oco.utilities.NetworkUtils;
+import it.softlab.app_oco.utilities.NotificationUtils;
 
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -79,16 +81,19 @@ public class MainActivity extends AppCompatActivity
         setupSharedPreferences();
 
         // TODO remove, debug only
-//        Product p = new Product("name","location","price","country","http://thumbs4.ebaystatic.com/m/mNTFKaH9UkE_OlLXo1mbljA/140.jpg");
-//        startDetailActivity(p);
+        Product product = new Product("iPhone","Roma","100", JsonUtils.COUNTRY_IT,"http://thumbs4.ebaystatic.com/m/mNTFKaH9UkE_OlLXo1mbljA/140.jpg");
+//        NotificationUtils.priceChangedNotification(this,product);
+
+//        startDetailActivity(product);
 
     }
 
-    private void startDetailActivity(Product p){
+    private void startDetailActivity(Product product) {
         Intent intent = new Intent(this,DetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable("data",p);
+        bundle.putParcelable(DetailActivity.KEY_DATA,product);
         intent.putExtras(bundle);
+
         startActivity(intent);
     }
 
