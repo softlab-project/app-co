@@ -12,6 +12,10 @@
     <string name="pref_show_us_label">USA</string>
 
     <string name="pref_show_it_label">Italia</string>
+    <string name="action_detail">Dettaglio prodotto</string>
+    <string name="notification_action_cancel">Non mi interessa</string>
+    <string name="notification_body">Un prezzo migliore per il tuo oggetto salvato!</string>
+    <string name="notification_title">Un nuovo prezzo!</string>
 
 
 </resources>
