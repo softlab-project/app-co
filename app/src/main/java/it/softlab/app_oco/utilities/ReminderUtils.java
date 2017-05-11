@@ -40,7 +40,7 @@ public class ReminderUtils {
                 .setTrigger(Trigger.executionWindow(PRICE_CHECK_INTERVAL_TIME,
                         PRICE_CHECK_INTERVAL_TIME+PRICE_CHECK_FLEX_TIME))
                 .build();
-        dispatcher.schedule(job);
+        mDispatcher.schedule(job);
         sInitialized = true;
     }
 

@@ -110,10 +110,10 @@ public class MainActivity extends AppCompatActivity
 
     private void setupSharedPreferences() {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mShowUSA = sharedPreferences.getBoolean(
+        mShowUSA = mSharedPreferences.getBoolean(
                 getString(R.string.pref_show_us_key),
                 getResources().getBoolean(R.bool.pref_show_us_default));
-        mShowITA = sharedPreferences.getBoolean(
+        mShowITA = mSharedPreferences.getBoolean(
                 getString(R.string.pref_show_it_key),
                 getResources().getBoolean(R.bool.pref_show_it_default));
 
@@ -204,8 +204,13 @@ public class MainActivity extends AppCompatActivity
                     siteIdArray,
                     showSiteIdArray);
 
-
-
+            if (mSearchedProducts!=null && mSearchedProducts.length > 0) {
+                String lowerPrice = mSearchedProducts[0].getPrice();
+                mSharedPreferences.edit()
+                        .putString(getString(R.string.pref_search_string_key), queryString)
+                        .putString(getString(R.string.pref_lower_price_key), lowerPrice)
+                        .apply();
+            }
 
             return mSearchedProducts;
 
