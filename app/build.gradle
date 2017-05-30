@@ -4,8 +4,8 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "it.softlab.app_oco"
-        minSdkVersion 23
+        applicationId "it.softlab.training.app_oco"
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"

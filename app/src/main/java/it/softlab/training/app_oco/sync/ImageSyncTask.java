@@ -1,4 +1,4 @@
-package it.softlab.app_oco.sync;
+package it.softlab.training.app_oco.sync;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

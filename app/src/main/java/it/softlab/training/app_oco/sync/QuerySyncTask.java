@@ -1,4 +1,4 @@
-package it.softlab.app_oco.sync;
+package it.softlab.training.app_oco.sync;
 
 import org.json.JSONException;
 
@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import it.softlab.app_oco.model.Product;
-import it.softlab.app_oco.utilities.JsonUtils;
-import it.softlab.app_oco.utilities.NetworkUtils;
+import it.softlab.training.app_oco.model.Product;
+import it.softlab.training.app_oco.utilities.JsonUtils;
+import it.softlab.training.app_oco.utilities.NetworkUtils;
 
 /**
  * Created by claudio on 5/9/17.

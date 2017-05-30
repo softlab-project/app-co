@@ -1,20 +1,18 @@
-package it.softlab.app_oco.sync;
+package it.softlab.training.app_oco.sync;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.renderscript.Double2;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 
-import it.softlab.app_oco.R;
-import it.softlab.app_oco.model.Product;
-import it.softlab.app_oco.utilities.JsonUtils;
-import it.softlab.app_oco.utilities.NetworkUtils;
-import it.softlab.app_oco.utilities.NotificationUtils;
+import it.softlab.training.app_oco.R;
+import it.softlab.training.app_oco.model.Product;
+import it.softlab.training.app_oco.utilities.NetworkUtils;
+import it.softlab.training.app_oco.utilities.NotificationUtils;
 
 /**
  * Created by claudio on 5/11/17.

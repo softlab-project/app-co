@@ -1,4 +1,4 @@
-package it.softlab.app_oco;
+package it.softlab.training.app_oco;
 
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;

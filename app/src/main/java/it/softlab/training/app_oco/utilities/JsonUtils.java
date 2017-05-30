@@ -1,10 +1,10 @@
-package it.softlab.app_oco.utilities;
+package it.softlab.training.app_oco.utilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import it.softlab.app_oco.model.Product;
+import it.softlab.training.app_oco.model.Product;
 
 /**
  * Created by claudio on 5/3/17.

@@ -1,4 +1,4 @@
-package it.softlab.app_oco.model;
+package it.softlab.training.app_oco.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

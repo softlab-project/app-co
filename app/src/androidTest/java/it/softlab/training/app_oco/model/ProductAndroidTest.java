@@ -1,4 +1,4 @@
-package it.softlab.app_oco.model;
+package it.softlab.training.app_oco.model;
 
 import android.os.Bundle;
 import android.support.test.runner.AndroidJUnit4;

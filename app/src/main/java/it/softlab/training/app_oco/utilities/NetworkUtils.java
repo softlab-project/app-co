@@ -1,4 +1,4 @@
-package it.softlab.app_oco.utilities;
+package it.softlab.training.app_oco.utilities;
 
 import android.net.Uri;
 import android.util.Log;

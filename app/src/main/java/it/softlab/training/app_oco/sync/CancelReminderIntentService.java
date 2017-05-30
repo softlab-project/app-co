@@ -1,4 +1,4 @@
-package it.softlab.app_oco.sync;
+package it.softlab.training.app_oco.sync;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.Context;
 import android.util.Log;
 
-import it.softlab.app_oco.utilities.ReminderUtils;
+import it.softlab.training.app_oco.utilities.ReminderUtils;
 
 public class CancelReminderIntentService extends IntentService {
 

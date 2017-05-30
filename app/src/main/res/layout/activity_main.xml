@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="it.softlab.app_oco.MainActivity">
+    tools:context="it.softlab.training.app_oco.MainActivity">
 
     <!-- DONE (actionsearch-1) add imeOptions as actionSearch-->
     <!-- DONE (actionsearch-2) add inputType as text -->

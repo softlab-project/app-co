@@ -1,4 +1,4 @@
-package it.softlab.app_oco;
+package it.softlab.training.app_oco;
 
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -19,12 +19,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import it.softlab.app_oco.model.Product;
-import it.softlab.app_oco.receivers.ConnectionBroadcastReceiver;
-import it.softlab.app_oco.sync.QuerySyncTask;
-import it.softlab.app_oco.utilities.JsonUtils;
-import it.softlab.app_oco.utilities.NetworkUtils;
-import it.softlab.app_oco.utilities.ReminderUtils;
+import it.softlab.training.app_oco.model.Product;
+import it.softlab.training.app_oco.receivers.ConnectionBroadcastReceiver;
+import it.softlab.training.app_oco.sync.QuerySyncTask;
+import it.softlab.training.app_oco.utilities.NetworkUtils;
+import it.softlab.training.app_oco.utilities.ReminderUtils;
 
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener,

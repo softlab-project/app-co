@@ -1,9 +1,9 @@
-package it.softlab.app_oco.utilities;
+package it.softlab.training.app_oco.utilities;
 
 import org.json.JSONException;
 import org.junit.Test;
 
-import it.softlab.app_oco.model.Product;
+import it.softlab.training.app_oco.model.Product;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;

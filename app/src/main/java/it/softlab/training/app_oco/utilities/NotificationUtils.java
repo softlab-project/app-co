@@ -1,4 +1,4 @@
-package it.softlab.app_oco.utilities;
+package it.softlab.training.app_oco.utilities;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -12,10 +12,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 
-import it.softlab.app_oco.sync.CancelReminderIntentService;
-import it.softlab.app_oco.DetailActivity;
-import it.softlab.app_oco.R;
-import it.softlab.app_oco.model.Product;
+import it.softlab.training.app_oco.sync.CancelReminderIntentService;
+import it.softlab.training.app_oco.DetailActivity;
+import it.softlab.training.app_oco.R;
+import it.softlab.training.app_oco.model.Product;
 
 /**
  * Created by claudio on 5/11/17.

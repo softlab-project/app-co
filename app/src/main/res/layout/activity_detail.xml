@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="it.softlab.app_oco.DetailActivity">
+    tools:context="it.softlab.training.app_oco.DetailActivity">
 
     <ImageView
         android:id="@+id/iv_detail_gallery"

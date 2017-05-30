@@ -1,4 +1,4 @@
-package it.softlab.app_oco;
+package it.softlab.training.app_oco;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import it.softlab.app_oco.model.Product;
-import it.softlab.app_oco.utilities.JsonUtils;
+import it.softlab.training.app_oco.model.Product;
+import it.softlab.training.app_oco.utilities.JsonUtils;
 
 /**
  * Created by claudio on 5/3/17.

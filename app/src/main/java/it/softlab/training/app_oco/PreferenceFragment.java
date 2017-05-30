@@ -1,4 +1,4 @@
-package it.softlab.app_oco;
+package it.softlab.training.app_oco;
 
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;

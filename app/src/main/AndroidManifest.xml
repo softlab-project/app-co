@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="it.softlab.app_oco">
+    package="it.softlab.training.app_oco">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="it.softlab.training.app_oco.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,37 +21,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="it.softlab.training.app_oco.SettingsActivity"
             android:label="@string/action_settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="it.softlab.training.app_oco.MainActivity">
 
             <!-- for backward compatibility -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="it.softlab.training.app_oco.MainActivity" />
         </activity>
         <activity
-            android:name=".DetailActivity"
+            android:name="it.softlab.training.app_oco.DetailActivity"
             android:label="@string/action_detail"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="it.softlab.training.app_oco.MainActivity">
 
             <!-- for backward compatibility -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="it.softlab.training.app_oco.MainActivity" />
         </activity>
 
-        <service android:name=".sync.PriceCheckJobService">
+        <service android:name="it.softlab.training.app_oco.sync.PriceCheckJobService">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
         <service
-            android:name=".sync.CancelReminderIntentService"
+            android:name="it.softlab.training.app_oco.sync.CancelReminderIntentService"
             android:exported="false" />
 
         <receiver
-            android:name=".receivers.ConnectionBroadcastReceiver"
+            android:name="it.softlab.training.app_oco.receivers.ConnectionBroadcastReceiver"
             android:enabled="true"
             android:exported="true"></receiver>
     </application>

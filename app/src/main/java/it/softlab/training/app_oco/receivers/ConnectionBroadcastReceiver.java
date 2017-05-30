@@ -1,4 +1,4 @@
-package it.softlab.app_oco.receivers;
+package it.softlab.training.app_oco.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

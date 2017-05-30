@@ -1,4 +1,4 @@
-package it.softlab.app_oco.utilities;
+package it.softlab.training.app_oco.utilities;
 
 import android.content.Context;
 
@@ -10,7 +10,7 @@ import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.Trigger;
 
-import it.softlab.app_oco.sync.PriceCheckJobService;
+import it.softlab.training.app_oco.sync.PriceCheckJobService;
 
 /**
  * Created by claudio on 5/11/17.
